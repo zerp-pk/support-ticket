@@ -1,0 +1,36 @@
+{
+    "name": "zerp/support-ticket",
+    "description": "React-based Laravel package for managing support tickets",
+    "type": "library",
+    "license": "MIT",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Zerp\\SupportTicket\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "ZAWAT OFFICIALS PVT LTD",
+            "email": "zawatofficials@gmail.com"
+        },
+        {
+            "name": "HafizMMoaz",
+            "email": "hafizmoazkhalid@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Zerp\\SupportTicket\\Providers\\SupportTicketServiceProvider"
+            ]
+        }
+    },
+    "keywords": [
+        "laravel",
+        "react",
+        "support-ticket",
+        "helpdesk",
+        "customer-support"
+    ]
+}
