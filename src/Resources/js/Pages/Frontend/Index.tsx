@@ -67,7 +67,7 @@ export default function Index() {
                         </div>
                         <CardContent className="p-4">
                             <div className="mb-4 text-center rounded-lg overflow-hidden">
-                                <img src={`${window.location.origin}/packages/workdo/SupportTicket/src/Resources/assets/images/svg/support-illustration.svg`} alt="Support" className="mx-auto w-full h-full" />
+                                <img src={`${window.location.origin}/packages/local/SupportTicket/src/Resources/assets/images/svg/support-illustration.svg`} alt="Support" className="mx-auto w-full h-full" />
                             </div>
                             <div className="space-y-4">
                                 <div className="bg-teal-50 p-3 rounded-lg flex items-start">

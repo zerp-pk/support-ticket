@@ -28,8 +28,8 @@ export default function BrandSettings() {
     const [isLoading, setIsLoading] = useState(false);
 
     const defaultImages = {
-        logo_dark: getImagePath('/packages/workdo/SupportTicket/src/Resources/assets/images/logo.png'),
-        favicon: getImagePath('/packages/workdo/SupportTicket/src/Resources/assets/images/favicon.png')
+        logo_dark: getImagePath('/packages/local/SupportTicket/src/Resources/assets/images/logo.png'),
+        favicon: getImagePath('/packages/local/SupportTicket/src/Resources/assets/images/favicon.png')
     };
 
     const [formSettings, setFormSettings] = useState({

@@ -31,7 +31,7 @@ export default function Layout({ children, title = "Support Ticket", brandSettin
     return (
         <>
             <Head title={title}>
-                <link rel="icon" type="image/png" href={brandSettings?.favicon || '/packages/workdo/SupportTicket/src/Resources/assets/images/favicon.png'} />
+                <link rel="icon" type="image/png" href={brandSettings?.favicon || '/packages/local/SupportTicket/src/Resources/assets/images/favicon.png'} />
             </Head>
             
             <style>{`
@@ -62,7 +62,7 @@ export default function Layout({ children, title = "Support Ticket", brandSettin
                                 {/* Logo */}
                                 <h1>
                                     <a href="#" className="flex items-center space-x-3 lg:max-w-none max-w-[120px]">
-                                        <img src={brandSettings?.logo_dark || '/packages/workdo/SupportTicket/src/Resources/assets/images/logo.png'} alt="WorkDo Support" className="h-8" />
+                                        <img src={brandSettings?.logo_dark || '/packages/local/SupportTicket/src/Resources/assets/images/logo.png'} alt="Zerp Support" className="h-8" />
                                     </a>
                                 </h1>
 
@@ -152,7 +152,7 @@ export default function Layout({ children, title = "Support Ticket", brandSettin
 
                     {/* Footer */}
                     <footer className="mt-8 md:mt-12 text-center text-gray-600 text-sm">
-                        <p>{t(`© ${new Date().getFullYear()} WorkDo Support System. All rights reserved.`)}</p>
+                        <p>{t(`© ${new Date().getFullYear()} Zerp Support System. All rights reserved.`)}</p>
                         <div className="mt-2 flex flex-wrap justify-center space-x-4">
                             <a href="#" className="hover:text-teal-600 transition-colors duration-200">{t('Privacy Policy')}</a>
                             <a href="#" className="hover:text-teal-600 transition-colors duration-200">{t('Terms of Service')}</a>

@@ -18,7 +18,7 @@ class MarketplaceSettingSeeder extends Seeder
             $files = File::files($marketplaceDir);
             foreach ($files as $file) {
                 if (in_array($file->getExtension(), ['png', 'jpg', 'jpeg', 'gif', 'webp'])) {
-                    $screenshots[] = '/packages/workdo/SupportTicket/src/marketplace/' . $file->getFilename();
+                    $screenshots[] = '/packages/local/SupportTicket/src/marketplace/' . $file->getFilename();
                 }
             }
         }
@@ -33,7 +33,7 @@ class MarketplaceSettingSeeder extends Seeder
                 'sections' => [
                     'hero' => [
                         'variant' => 'hero1',
-                        'title' => 'SupportTicket Module for ERPGo SaaS',
+                        'title' => 'SupportTicket Module for Zerp',
                         'subtitle' => 'Streamline your supportticket workflow with comprehensive tools and automated management.',
                         'primary_button_text' => 'Install SupportTicket Module',
                         'primary_button_link' => '#install',
@@ -55,19 +55,19 @@ class MarketplaceSettingSeeder extends Seeder
                                 'title' => 'Comprehensive Ticket Management System',
                                 'description' => 'Create, track, and manage customer support tickets with advanced categorization and priority handling for efficient issue resolution. Streamline customer communication with automated email notifications, conversation tracking, and multi-role access for staff, clients, and vendors.',
                                 'keyPoints' => ['Advanced ticket creation and tracking', 'Automated email notifications', 'Multi-role access management', 'Priority and category handling'],
-                                'screenshot' => '/packages/workdo/SupportTicket/src/marketplace/image1.png'
+                                'screenshot' => '/packages/local/SupportTicket/src/marketplace/image1.png'
                             ],
                             [
                                 'title' => 'Knowledge Base & FAQ Management',
                                 'description' => 'Build comprehensive knowledge base with categorized articles and FAQ system to reduce support workload and empower customer self-service. Import existing content, organize information effectively, and provide customers with instant access to solutions and documentation.',
                                 'keyPoints' => ['Categorized knowledge base articles', 'FAQ management system', 'Bulk content import functionality', 'Customer self-service portal'],
-                                'screenshot' => '/packages/workdo/SupportTicket/src/marketplace/image2.png'
+                                'screenshot' => '/packages/local/SupportTicket/src/marketplace/image2.png'
                             ],
                             [
                                 'title' => 'Customizable Support Portal & Branding',
                                 'description' => 'Deploy professional customer-facing support portal with customizable branding, custom pages, and flexible field configuration. Create branded experience with custom pages for privacy policy and terms, while maintaining consistent company identity throughout the support process.',
                                 'keyPoints' => ['Customizable brand settings', 'Professional support portal', 'Custom page creation', 'Flexible field configuration'],
-                                'screenshot' => '/packages/workdo/SupportTicket/src/marketplace/image3.png'
+                                'screenshot' => '/packages/local/SupportTicket/src/marketplace/image3.png'
                             ]
                         ]
                     ],

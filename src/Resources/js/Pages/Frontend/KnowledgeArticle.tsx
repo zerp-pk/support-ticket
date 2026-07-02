@@ -143,7 +143,7 @@ export default function KnowledgeArticle({ article, relatedArticles, settings, b
                     </div>
                     <div className="w-full md:w-2/5 flex justify-center">
                       
-                            <img src={getImagePath('packages/workdo/SupportTicket/src/Resources/assets/images/svg/database-illustration.svg')}
+                            <img src={getImagePath('packages/local/SupportTicket/src/Resources/assets/images/svg/database-illustration.svg')}
                             alt="Knowledge Base Illustration" 
                             className="w-full max-w-sm"
                             style={{ animation: 'float 3s ease-in-out infinite' }}

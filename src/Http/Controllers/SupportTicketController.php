@@ -71,8 +71,8 @@ class SupportTicketController extends Controller
         $termsEnabled = $customPages->where('slug', 'terms-conditions')->isNotEmpty();
         
         return [
-            'logo_dark' => $settings['logo_dark'] ?? asset('packages/workdo/SupportTicket/src/Resources/assets/images/logo.png'),
-            'favicon' => $settings['favicon'] ?? '/packages/workdo/SupportTicket/src/Resources/assets/images/favicon.png',
+            'logo_dark' => $settings['logo_dark'] ?? asset('packages/local/SupportTicket/src/Resources/assets/images/logo.png'),
+            'favicon' => $settings['favicon'] ?? '/packages/local/SupportTicket/src/Resources/assets/images/favicon.png',
             'titleText' => $settings['title_text'] ?? 'Support Ticket System',
             'footerText' => $settings['footer_text'] ?? '© ' . date('Y') . ' Support System. All rights reserved.',
             'companyAllSetting' => $companyAllSetting,

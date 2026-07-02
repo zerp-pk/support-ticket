@@ -164,7 +164,7 @@ export default function Faq({ faqs, settings, brandSettings, titleSections, ctaS
                         </div>
                         <div className="w-full md:w-1/3 flex justify-center">
                             <div className="relative w-48 h-48 md:w-56 md:h-56">
-                                <img src={getImagePath('packages/workdo/SupportTicket/src/Resources/assets/images/faq-image.svg')} alt="FAQ" className="w-full h-full object-contain" />
+                                <img src={getImagePath('packages/local/SupportTicket/src/Resources/assets/images/faq-image.svg')} alt="FAQ" className="w-full h-full object-contain" />
                             </div>
                         </div>
                     </CardContent>

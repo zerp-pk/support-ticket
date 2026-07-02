@@ -1,6 +1,6 @@
 {
     "name": "zerp/support-ticket",
-    "description": "React-based Laravel package for managing support tickets",
+    "description": "Support ticket and helpdesk module for the Zerp ERP platform",
     "type": "library",
     "license": "MIT",
     "require": {},

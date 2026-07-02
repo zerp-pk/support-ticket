@@ -69,7 +69,7 @@ export default function SearchTicket({ settings, brandSettings, titleSections, s
                             <div className="flex flex-col-reverse md:flex-row items-center gap-6 md:gap-8">
                                 <div className="w-full md:w-1/3">
                                     <img 
-                                        src={getImagePath('packages/workdo/SupportTicket/src/Resources/assets/images/search-person.svg')} 
+                                        src={getImagePath('packages/local/SupportTicket/src/Resources/assets/images/search-person.svg')} 
                                         alt="Search illustration" 
                                         className="w-full h-auto"
                                     />

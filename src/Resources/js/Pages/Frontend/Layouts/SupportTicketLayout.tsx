@@ -73,12 +73,12 @@ export default function SupportTicketLayout({ children, title = "Support Ticket"
     const currentYear = new Date().getFullYear();
     const logoUrl = brandSettings?.logo_dark && brandSettings.logo_dark.trim() !== ''
         ? (brandSettings.logo_dark.startsWith('http') ? brandSettings.logo_dark : getImagePath(brandSettings.logo_dark))
-        : getImagePath('packages/workdo/SupportTicket/src/Resources/assets/images/logo.png');
+        : getImagePath('packages/local/SupportTicket/src/Resources/assets/images/logo.png');
     const faviconUrl = brandSettings?.favicon && brandSettings.favicon.trim() !== ''
         ? (brandSettings.favicon.startsWith('http') ? brandSettings.favicon : getImagePath(brandSettings.favicon))
-        : getImagePath('packages/workdo/SupportTicket/src/Resources/assets/images/favicon.png');
+        : getImagePath('packages/local/SupportTicket/src/Resources/assets/images/favicon.png');
     const siteTitle = brandSettings?.titleText || 'Support Ticket System';
-    const footerText = brandSettings?.footerText || `© ${new Date().getFullYear()} WorkDo Support System. All rights reserved.`;
+    const footerText = brandSettings?.footerText || `© ${new Date().getFullYear()} Zerp Support System. All rights reserved.`;
 
     const navigationItems = [
         { name: t('Create Ticket'), href: route('support-ticket.index', [slug]), icon: Ticket },

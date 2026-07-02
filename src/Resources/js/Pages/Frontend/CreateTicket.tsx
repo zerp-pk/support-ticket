@@ -173,7 +173,7 @@ export default function CreateTicket({ categories, allFields, customFields, sett
                         <CardContent className="p-4">
                             <div className="mb-4 text-center rounded-lg overflow-hidden">
                                 <img 
-                                    src={getImagePath('packages/workdo/SupportTicket/src/Resources/assets/images/svg/support-illustration.svg')} 
+                                    src={getImagePath('packages/local/SupportTicket/src/Resources/assets/images/svg/support-illustration.svg')} 
                                     alt="Support" 
                                     className="mx-auto w-full h-full" 
                                 />
@@ -400,7 +400,7 @@ export default function CreateTicket({ categories, allFields, customFields, sett
                                                     </Label>
                                                     <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-teal-400 transition-all duration-300">
                                                         <div className="space-y-1 text-center">
-                                                            <img src={getImagePath('packages/workdo/SupportTicket/src/Resources/assets/images/svg/file-upload-illustration.svg')} alt="File Upload" className="h-28 mx-auto" style={{
+                                                            <img src={getImagePath('packages/local/SupportTicket/src/Resources/assets/images/svg/file-upload-illustration.svg')} alt="File Upload" className="h-28 mx-auto" style={{
                                                                 animation: 'float 6s ease-in-out infinite'
                                                             }} />
                                                             <div className="flex text-sm text-gray-600">
