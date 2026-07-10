@@ -168,6 +168,11 @@ class TicketApiContollerController extends Controller
 
                 $ticket = Ticket::create($validated);
 
+                if (!empty($attachments)) {
+                    $linked = Ticket::linkAttachmentsMedia($attachments, Ticket::class, $ticket->id, 'support_tickets', 'Support Tickets', Auth::id(), creatorId());
+                    $ticket->update(['attachments' => $linked]);
+                }
+
                 if ($request->has('fields') && !empty($request->fields)) {
                     TicketField::saveData($ticket, $request->fields);
                 }
@@ -259,15 +264,12 @@ class TicketApiContollerController extends Controller
                 if (!$ticket) {
                     return $this->errorResponse('Ticket not found', null, 404);
                 }
+                foreach (Conversion::where('ticket_id', $ticket->id)->get() as $conversion) {
+                    Ticket::deleteAttachmentsMedia(is_array($conversion->attachments) ? $conversion->attachments : (json_decode($conversion->attachments, true) ?? []));
+                }
                 Conversion::where('ticket_id', $ticket->id)->delete();
 
-                $attachments = json_decode($ticket->attachments, true) ?? [];
-
-                foreach ($attachments as $attachment) {
-                    if (isset($attachment['path'])) {
-                        Storage::disk('public')->delete('media/' . $attachment['path']);
-                    }
-                }
+                Ticket::deleteAttachmentsMedia(is_array($ticket->attachments) ? $ticket->attachments : (json_decode($ticket->attachments, true) ?? []));
 
                 Storage::disk('public')->deleteDirectory('tickets/' . $ticket->ticket_id);
 
@@ -364,6 +366,11 @@ class TicketApiContollerController extends Controller
                 $conversion->creator_id  = Auth::id();
                 $conversion->created_by  = creatorId();
                 $conversion->save();
+
+                if (!empty($attachments)) {
+                    $linked = Ticket::linkAttachmentsMedia($attachments, Conversion::class, $conversion->id, 'support_ticket_conversions', 'Support Ticket Replies', Auth::id(), creatorId());
+                    $conversion->update(['attachments' => $linked]);
+                }
 
 
                 if ($request->has('status') && in_array($request->status, ['open', 'In Progress', 'Closed', 'On Hold'])) {

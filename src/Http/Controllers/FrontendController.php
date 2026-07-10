@@ -226,17 +226,6 @@ class FrontendController extends Controller
         try {
             $ticketId = time();
 
-            $attachments = [];
-            if ($request->hasFile('attachments')) {
-                foreach ($request->file('attachments') as $file) {
-                    $filename = $file->store('tickets', 'public');
-                    $attachments[] = [
-                        'name' => $file->getClientOriginalName(),
-                        'path' => basename($filename)
-                    ];
-                }
-            }
-
             $ticket = new Ticket();
             $ticket->ticket_id = $ticketId;
             $ticket->name = $request->name;
@@ -246,11 +235,32 @@ class FrontendController extends Controller
             $ticket->description = $request->description;
             $ticket->status = $request->status ?? 'In Progress';
             $ticket->account_type = 'custom';
-            $ticket->attachments = json_encode($attachments);
+            $ticket->attachments = json_encode([]);
             $ticket->creator_id = $user_id;
             $ticket->created_by = $user_id;
             $ticket->save();
-            
+
+            $attachments = [];
+            if ($request->hasFile('attachments')) {
+                foreach ($request->file('attachments') as $file) {
+                    $media = \App\Services\MediaAttachmentService::upload(
+                        $file,
+                        Ticket::class,
+                        $ticket->id,
+                        'support_tickets',
+                        $user_id,
+                        $user_id,
+                        \App\Services\MediaAttachmentService::ensureDirectory('Support Tickets', $user_id, $user_id)
+                    );
+                    $attachments[] = [
+                        'name' => $file->getClientOriginalName(),
+                        'path' => $media->file_name,
+                        'media_id' => $media->id,
+                    ];
+                }
+                $ticket->update(['attachments' => $attachments]);
+            }
+
             // Save custom field data
             if ($request->has('fields') && !empty($request->fields)) {
                 TicketField::saveData($ticket, $request->fields);
@@ -607,27 +617,37 @@ class FrontendController extends Controller
             return back()->with('error', 'Ticket not found');
         }
 
-        // Handle file attachments
-        $attachments = [];
-        if ($request->hasFile('files')) {
-            foreach ($request->file('files') as $file) {
-                $filename = $file->store('tickets', 'public');
-                $attachments[] = [
-                    'name' => $file->getClientOriginalName(),
-                    'path' => basename($filename)
-                ];
-            }
-        }
-
         // Create conversation
         $conversion = new Conversion();
         $conversion->ticket_id = $ticket->id;
         $conversion->message = $request->description;
         $conversion->sender_type = 'user';
         $conversion->sender_name = $ticket->name;
-        $conversion->attachments = json_encode($attachments);
+        $conversion->attachments = json_encode([]);
         $conversion->created_by = $user_id;
         $conversion->save();
+
+        // Handle file attachments
+        $attachments = [];
+        if ($request->hasFile('files')) {
+            foreach ($request->file('files') as $file) {
+                $media = \App\Services\MediaAttachmentService::upload(
+                    $file,
+                    Conversion::class,
+                    $conversion->id,
+                    'support_ticket_conversions',
+                    $user_id,
+                    $user_id,
+                    \App\Services\MediaAttachmentService::ensureDirectory('Support Ticket Replies', $user_id, $user_id)
+                );
+                $attachments[] = [
+                    'name' => $file->getClientOriginalName(),
+                    'path' => $media->file_name,
+                    'media_id' => $media->id,
+                ];
+            }
+            $conversion->update(['attachments' => $attachments]);
+        }
 
         return back()->with('success', __('The reply has been added successfully'));
     }

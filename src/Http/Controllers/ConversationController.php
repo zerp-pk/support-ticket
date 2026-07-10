@@ -71,6 +71,11 @@ class ConversationController extends Controller
     
         $conversation = Conversion::create($conversationData);
 
+        if (!empty($attachments)) {
+            $linked = Ticket::linkAttachmentsMedia($attachments, Conversion::class, $conversation->id, 'support_ticket_conversions', 'Support Ticket Replies', $user_id, $user_id);
+            $conversation->update(['attachments' => $linked]);
+        }
+
         ReplyTicket::dispatch($request, $conversation, $ticket);
 
         // Send email notification for reply

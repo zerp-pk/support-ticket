@@ -266,10 +266,10 @@ class SupportTicketController extends Controller
                 }
             }
 
+            $attachments = [];
             if (!empty($validated['attachments'])) {
                 $attachmentPaths = is_array($validated['attachments']) ? $validated['attachments'] : json_decode($validated['attachments'], true);
                 if (is_array($attachmentPaths)) {
-                    $attachments = [];
                     foreach ($attachmentPaths as $filePath) {
                         if (!empty($filePath) && $filePath !== 'logo_dark' && $filePath !== 'favicon') {
                             $filename = basename($filePath);
@@ -279,16 +279,17 @@ class SupportTicketController extends Controller
                             ];
                         }
                     }
-                    $validated['attachments'] = json_encode($attachments);
-                } else {
-                    $validated['attachments'] = '[]';
                 }
-            } else {
-                $validated['attachments'] = '[]';
             }
+            $validated['attachments'] = json_encode($attachments);
 
             $ticket = Ticket::create($validated);
-            
+
+            if (!empty($attachments)) {
+                $linked = Ticket::linkAttachmentsMedia($attachments, Ticket::class, $ticket->id, 'support_tickets', 'Support Tickets', Auth::id(), creatorId());
+                $ticket->update(['attachments' => $linked]);
+            }
+
             // Save custom field data
             if ($request->has('fields') && !empty($request->fields)) {
                 TicketField::saveData($ticket, $request->fields);
@@ -437,6 +438,7 @@ class SupportTicketController extends Controller
                     $validated['user_id'] = null;
                 }
 
+                $attachments = null;
                 if (isset($validated['attachments']) && !empty($validated['attachments'])) {
                     $attachmentPaths = json_decode($validated['attachments'], true);
                     if (is_array($attachmentPaths)) {
@@ -455,7 +457,12 @@ class SupportTicketController extends Controller
                 }
 
                 $ticket->update($validated);
-                
+
+                if (!empty($attachments)) {
+                    $linked = Ticket::linkAttachmentsMedia($attachments, Ticket::class, $ticket->id, 'support_tickets', 'Support Tickets', Auth::id(), creatorId());
+                    $ticket->update(['attachments' => $linked]);
+                }
+
                 // Save custom field data
                 if ($request->has('fields') && !empty($request->fields)) {
                     TicketField::saveData($ticket, $request->fields);
@@ -477,14 +484,12 @@ class SupportTicketController extends Controller
                 return redirect()->route('support-tickets.index')->with('error', __('Ticket not found'));
             }
             
+            foreach (Conversion::where('ticket_id', $ticket->id)->get() as $conversion) {
+                Ticket::deleteAttachmentsMedia(is_array($conversion->attachments) ? $conversion->attachments : (json_decode($conversion->attachments, true) ?? []));
+            }
             Conversion::where('ticket_id', $ticket->id)->delete();
 
-                $attachments = json_decode($ticket->attachments, true) ?? [];
-                foreach ($attachments as $attachment) {
-                    if (isset($attachment['path'])) {
-                        Storage::disk('public')->delete(str_replace('/storage/', '', $attachment['path']));
-                    }
-                }
+                Ticket::deleteAttachmentsMedia(is_array($ticket->attachments) ? $ticket->attachments : (json_decode($ticket->attachments, true) ?? []));
 
                 Storage::disk('public')->deleteDirectory('tickets/' . $ticket->ticket_id);
 
@@ -504,12 +509,10 @@ class SupportTicketController extends Controller
                 
                 if (isset($attachments[$attachmentIndex])) {
                     $attachment = $attachments[$attachmentIndex];
-                    if (isset($attachment['path'])) {
-                        Storage::disk(name: 'public')->delete(str_replace('/storage/', '', $attachment['path']));
-                    }
+                    Ticket::deleteAttachmentsMedia([$attachment]);
 
                     unset($attachments[$attachmentIndex]);
-                    $ticket->attachments = json_encode(array_values($attachments));
+                    $ticket->attachments = array_values($attachments);
                     $ticket->save();
 
                     return redirect()->back()->with('success', __('Attachment deleted successfully.'));
@@ -597,7 +600,12 @@ class SupportTicketController extends Controller
             $conversion->created_by = creatorId();
             $conversion->save();
 
-            
+            if (!empty($attachments)) {
+                $linked = Ticket::linkAttachmentsMedia($attachments, Conversion::class, $conversion->id, 'support_ticket_conversions', 'Support Ticket Replies', Auth::id(), creatorId());
+                $conversion->update(['attachments' => $linked]);
+            }
+
+
             if ($request->has('status') && in_array($request->status, ['open', 'In Progress', 'Closed', 'On Hold'])) {
                 $ticket->status = $request->status;
                 $ticket->save();
@@ -685,6 +693,11 @@ class SupportTicketController extends Controller
                 'attachments' => json_encode($attachments)
             ]);
 
+            if (!empty($attachments)) {
+                $linked = Ticket::linkAttachmentsMedia($attachments, Conversion::class, $conversion->id, 'support_ticket_conversions', 'Support Ticket Replies', Auth::id(), creatorId());
+                $conversion->update(['attachments' => $linked]);
+            }
+
             return response()->json([
                 'success' => true,
                 'message' => __('Reply updated successfully'),
@@ -713,12 +726,8 @@ class SupportTicketController extends Controller
             }
 
             // Delete attachments if any
-            $attachments = json_decode($conversion->attachments, true) ?? [];
-            foreach ($attachments as $attachment) {
-                if (isset($attachment['path'])) {
-                    Storage::disk('public')->delete(str_replace('/storage/', '', $attachment['path']));
-                }
-            }
+            $attachments = is_array($conversion->attachments) ? $conversion->attachments : (json_decode($conversion->attachments, true) ?? []);
+            Ticket::deleteAttachmentsMedia($attachments);
 
             $conversion->delete();
 
