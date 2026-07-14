@@ -3,6 +3,7 @@
 namespace Zerp\SupportTicket\Models;
 
 use App\Models\User;
+use App\Models\Concerns\TenantScoped;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,7 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Ticket extends Model
 {
-    use HasFactory;
+    use HasFactory, TenantScoped;
     protected $fillable = [
         'ticket_id',
         'name',

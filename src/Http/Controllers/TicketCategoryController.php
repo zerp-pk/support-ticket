@@ -56,7 +56,7 @@ class TicketCategoryController extends Controller
     public function update(UpdateTicketCategoryRequest $request, $category)
     {
         if (Auth::user()->can('edit-ticket-categories')) {
-            $ticketCategory = TicketCategory::find($category);
+            $ticketCategory = TicketCategory::findOrFail($category);
             
             $ticketCategory->name = $request->name;
             $ticketCategory->color = $request->color;
@@ -72,7 +72,7 @@ class TicketCategoryController extends Controller
     {
         try {
             if (Auth::user()->can('delete-ticket-categories')) {
-                $ticketCategory = TicketCategory::find($category);
+                $ticketCategory = TicketCategory::findOrFail($category);
                 $tickets = Ticket::where('category', $ticketCategory->id)->count();
                 
                 if ($tickets > 0) {

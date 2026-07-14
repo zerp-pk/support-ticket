@@ -58,7 +58,7 @@ class KnowledgebaseCategoryController extends Controller
     public function update(UpdateKnowledgeBaseCategoryRequest $request, $category)
     {
         if (Auth::user()->can('edit-knowledge-base')) {
-            $knowledgeCategory = KnowledgeBaseCategory::find($category);
+            $knowledgeCategory = KnowledgeBaseCategory::findOrFail($category);
             
             $knowledgeCategory->title = $request->title;
             $knowledgeCategory->save();

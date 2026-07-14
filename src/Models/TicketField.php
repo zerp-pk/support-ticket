@@ -2,13 +2,14 @@
 
 namespace Zerp\SupportTicket\Models;
 
+use App\Models\Concerns\TenantScoped;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\User;
 
 class TicketField extends Model
 {
-    use HasFactory;
+    use HasFactory, TenantScoped;
 
     protected $fillable = [
         'name', 'type', 'placeholder', 'width', 'order', 'status', 'is_required', 'custom_id', 'creator_id', 'created_by'
@@ -84,7 +85,7 @@ class TicketField extends Model
         ];
 
         if ($company_id) {
-            $ticket_f = self::where('created_by', $company_id)->get();
+            $ticket_f = self::withoutGlobalScope('tenant')->where('created_by', $company_id)->get();
             if (count($ticket_f) == 0) {
                 foreach ($field_array as $field) {
                     self::create([

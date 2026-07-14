@@ -2,11 +2,17 @@
 
 namespace Zerp\SupportTicket\Models;
 
+use App\Models\Concerns\TenantScoped;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class TicketFieldValue extends Model
 {
+    use TenantScoped;
+
+    /** No created_by column; the parent ticket carries the tenant boundary. */
+    public string $tenantParent = 'ticket';
+
     protected $fillable = [
         'record_id',
         'field_id',

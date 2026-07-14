@@ -96,7 +96,7 @@ class ConversationController extends Controller
     public function sendEmail(Request $request, $slug, $ticketId)
     {
         $user_id = $this->getUser($slug);
-        $ticket = Ticket::find($ticketId);
+        $ticket = Ticket::findOrFail($ticketId);
         
         if (!empty(company_setting('New Ticket',$user_id)) && company_setting('New Ticket', $user_id) == true) {
             $uArr = [
@@ -120,7 +120,7 @@ class ConversationController extends Controller
     public function replyEmail(ReplyEmailRequest $request, $slug, $ticketId)
     {
         $user_id = $this->getUser($slug);
-        $ticket = Ticket::find($ticketId);
+        $ticket = Ticket::findOrFail($ticketId);
         
         if (!empty(company_setting('New Ticket Reply',$user_id)) && company_setting('New Ticket Reply',$user_id) == true) {
             $uArr = [

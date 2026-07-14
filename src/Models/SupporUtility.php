@@ -21,7 +21,8 @@ class SupporUtility extends Model
 
         if (!empty($company_id)) {
             foreach ($categories as $index => $category_name) {
-                $category = TicketCategory::where('name', $category_name)
+                $category = TicketCategory::withoutGlobalScope('tenant')
+                    ->where('name', $category_name)
                     ->where('created_by', $company_id)
                     ->first();
 
