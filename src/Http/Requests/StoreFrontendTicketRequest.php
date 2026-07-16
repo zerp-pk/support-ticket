@@ -16,7 +16,7 @@ class StoreFrontendTicketRequest extends FormRequest
      * The company whose help centre this is, taken from the slug in the URL.
      *
      * This form is public, so the submitter is usually a guest and creatorId() means
-     * nothing here — the category must belong to the portal's company, not to whoever
+     * nothing here - the category must belong to the portal's company, not to whoever
      * happens to be logged in. Returns 0 for an unknown slug, which fails the rule.
      */
     private function portalCompanyId(): int
