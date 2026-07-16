@@ -102,7 +102,7 @@ class ContactController extends Controller
     public function destroy($id)
     {
         if (Auth::user()->can('delete-contact')) {
-            $contact = Contact::find($id);
+            $contact = Contact::findOrFail($id);
             DestroyContact::dispatch($contact);
             $contact->delete();
             return back()->with('success', __('The contact has been deleted.'));

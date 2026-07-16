@@ -18,7 +18,7 @@ class UpdateSupportTicketRequest extends FormRequest
             'email' => 'sometimes|email|max:255',
             'subject' => 'sometimes|string|max:255',
             'description' => 'sometimes|string',
-            'category' => 'sometimes|exists:ticket_categories,id',
+            'category' => 'sometimes|exists:ticket_categories,id,created_by,' . creatorId(),
             'status' => 'sometimes|in:open,In Progress,Closed,On Hold',
             'account_type' => 'sometimes|in:custom,staff,client,vendor',
             'user_id' => 'nullable|exists:users,id',

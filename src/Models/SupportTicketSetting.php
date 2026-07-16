@@ -2,10 +2,13 @@
 
 namespace Zerp\SupportTicket\Models;
 
+use App\Models\Concerns\TenantScoped;
 use Illuminate\Database\Eloquent\Model;
 
 class SupportTicketSetting extends Model
 {
+    use TenantScoped;
+
     protected $fillable = [
         'key',
         'value',
@@ -20,7 +23,7 @@ class SupportTicketSetting extends Model
 
     public static function getAllByCompany($companyId)
     {
-        return static::where('created_by', $companyId)
+        return static::withoutGlobalScope('tenant')->where('created_by', $companyId)
             ->pluck('value', 'key')
             ->toArray();
     }

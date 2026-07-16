@@ -3,11 +3,14 @@
 namespace Zerp\SupportTicket\Models;
 
 use App\Models\User;
+use App\Models\Concerns\TenantScoped;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Conversion extends Model
 {
+    use TenantScoped;
+
     protected $table = 'support_ticket_conversions';
     
     protected $fillable = [

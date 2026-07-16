@@ -7,12 +7,20 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\User;
 use App\Classes\Module;
+use App\Models\Concerns\TenantScope;
 
 class SupportTicketSharedDataMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
         if (str_starts_with($request->route()?->getName() ?? '', 'support-ticket.')) {
+            // The help centre is public and serves ONE company's tickets, FAQ and
+            // knowledge base, addressed by the slug in the URL — not by whoever happens
+            // to be logged in. Lift the tenant scope for this request so a visitor
+            // signed in to another company sees the portal instead of an empty page.
+            // Every query here already filters by $userId.
+            TenantScope::standDownForThisRequest();
+
             $userId = $this->getUserIdFromRequest($request);
             
             $user = User::find($userId);

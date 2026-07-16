@@ -16,7 +16,7 @@ class StoreSupportTicketRequest extends FormRequest
         $rules = [
             'account_type' => 'required|string|in:custom,staff,client,vendor',
             'email' => 'required|string|email|max:255',
-            'category' => 'required|exists:ticket_categories,id',
+            'category' => 'required|exists:ticket_categories,id,created_by,' . creatorId(),
             'subject' => 'required|string|max:255',
             'description' => 'required|string',
             'status' => 'required|string|in:In Progress,On Hold,Closed',

@@ -2,10 +2,13 @@
 
 namespace Zerp\SupportTicket\Models;
 
+use App\Models\Concerns\TenantScoped;
 use Illuminate\Database\Eloquent\Model;
 
 class Contact extends Model
 {
+    use TenantScoped;
+
     protected $table = 'support_contacts';
     
     protected $fillable = [

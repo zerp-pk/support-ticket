@@ -35,7 +35,7 @@ class SettingsController extends Controller
                         $fieldObj = new TicketField();
 
                         if (isset($field['id']) && !empty($field['id'])) {
-                            $fieldObj = TicketField::find($field['id']);
+                            $fieldObj = TicketField::findOrFail($field['id']);
                             if (($key = array_search($fieldObj->id, $field_ids)) !== false) {
                                 unset($field_ids[$key]);
                             }
