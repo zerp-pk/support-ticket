@@ -16,7 +16,17 @@ class SupportTicketServiceProvider extends ServiceProvider
         if (file_exists($apiRoutesPath)) {
             $this->loadRoutesFrom($apiRoutesPath);
         }
-        
+
+        // Scoped Swagger/OpenAPI docs for this module at /docs/support-ticket.
+        // Guarded so the package still works if the host app has no Scramble.
+        if (class_exists(\Dedoc\Scramble\Scramble::class)) {
+            \Dedoc\Scramble\Scramble::registerApi('support-ticket', [
+                'api_path' => 'api/support-ticket',
+                'info' => ['version' => \Composer\InstalledVersions::getPrettyVersion('zerp/support-ticket') ?? '1.0.0', 'description' => 'Zerp Support Ticket module REST API for mobile and third-party clients.'],
+                'ui' => ['title' => 'Zerp Support Ticket API'],
+            ])->expose(ui: '/docs/support-ticket', document: '/docs/support-ticket.json');
+        }
+
         $migrationsPath = __DIR__.'/../Database/Migrations';
         if (is_dir($migrationsPath)) {
             $this->loadMigrationsFrom($migrationsPath);
